@@ -1,31 +1,39 @@
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const user = require("../model/user.model");
+const User = require("../model/user.model");
+const {
+    encrypt,
+    decrypt
+} = require("../common/commonFunction");
 
 exports.verifyUser = async (req, res, next) => {
     try {
 
-        const Token = req.headers['authorization'];
+        const Token = req.cookies.jwt        
         if (Token) {
 
             const decoded = jwt.verify(Token, process.env.USER_AUTH_TOKEN);
-            const data = await user.findById({ _id: decoded._id });
+            console.log("--Token--",Token);
+            console.log("--decoded--",decoded);
+            const decryptUid = await decrypt(decoded.data);
+            console.log("--decryptUid--",decryptUid);
+            const data = await User.findOne({ uid: decryptUid });
+            
+            
 
             if (data) {
-
+                const decryptToken = data.tokens.filter((v) => v.token == Token)[0]["token"];                
                 req.user = data;
-                if (Token == data.token) {
+                if (Token == decryptToken) {
                     next();
-                }
-                else {
+                } else {
                     res.status(401).json({
                         message: "UNAUTHORIZED",
                         status: 401
                     })
                 }
 
-            }
-            else {
+            } else {
 
                 res.status(404).json({
                     message: "DATA NOT FOUND!",

@@ -1,11 +1,17 @@
 const mongoose = require("mongoose");
-mongoose.set('strictQuery', true);
+const dotenv = require("dotenv");
+const config = require("../config/index");
+dotenv.config({
+	path: `.env.${config.ENV}`,
+});
 
-mongoose.connect("mongodb://127.0.0.1:27017/newTest")
+const dbUrl = process.env.DB_URL
+mongoose.set('strictQuery', false);
+mongoose.connect(dbUrl)
 .then(() => {
     console.log("Connection SuccessFully");
 })
 .catch((err) => {
     console.log(err);
-    console.log("Not Connected");
+    console.log("Not Connected Database!");
 })
