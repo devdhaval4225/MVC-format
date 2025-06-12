@@ -32,13 +32,12 @@ exports.forgetPassword = async (req, res) => {
                     new: true
                 }
             );
-            // const message = `Your FORGET PASSWORD is :-   ${newPass}`;
-            const massageHTML = mailTemplate.forgetPasswordTemplate(newPass);
+            const message = `Your Forget Password is :-   ${newPass}`;
             const mailObj = {
                 from: process.env.FROM_MAIL,
                 to: checkEmail.email,
                 subject: "CarServ Forget Password",
-                html: massageHTML,
+                html: message,
               }
             await sendEmail(mailObj);
 
@@ -46,12 +45,6 @@ exports.forgetPassword = async (req, res) => {
                 message: "SEND MAIL ON YOUR REGISTER MAIL ADDRESS FOR FORGET PASSWORD",
                 status: 200
             })
-
-            // res.status(200).json({
-            //     message: "new password user",
-            //     status: 200,
-            //     data: newPass
-            // })
         }
     } catch (error) {
         console.log("::user-forgetPassword-ERROR::", error);

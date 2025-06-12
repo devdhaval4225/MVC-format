@@ -13,10 +13,7 @@ exports.verifyUser = async (req, res, next) => {
         if (Token) {
 
             const decoded = jwt.verify(Token, process.env.USER_AUTH_TOKEN);
-            console.log("--Token--",Token);
-            console.log("--decoded--",decoded);
             const decryptUid = await decrypt(decoded.data);
-            console.log("--decryptUid--",decryptUid);
             const data = await User.findOne({ uid: decryptUid });
             
             

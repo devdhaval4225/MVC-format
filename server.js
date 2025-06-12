@@ -4,7 +4,6 @@ const express = require("express");
 const cors = require("cors")
 const app = express();
 const cookiesParser = require("cookie-parser");
-const passport = require("passport");
 const config = require("./config/index")
 
 dotenv.config({
@@ -17,9 +16,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookiesParser());
 app.use(express.json());
 app.use(cors());
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 
 const userRouter = require("./routes/users.routes");
 app.use('/api/v1/user', userRouter);

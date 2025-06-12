@@ -30,7 +30,6 @@ exports.login = async (req, res) => {
             const checkPass = await bcrypt.compare(password, checkEmail.password);
             if (checkPass == true) {
                 const token = await userToken(checkEmail.uid, checkEmail.tokens);
-                // const token = await checkEmail.userGenerateAuthtoken();
                 
                 res.cookie("jwt", token, {
                     expires: new Date(Date.now() + 30000000 * 3),

@@ -28,7 +28,6 @@ exports.changePassword = async (req, res) => {
                     $set: {
                             password: newPassword,
                             tokens: []
-    
                     }
                 },
                 {
@@ -59,7 +58,4 @@ const changePasswordValidationSchema = Joi.object().keys({
         .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/)
 		.error(new Error(errorMessage.PASSWORD_ISSUE))
 		.required(),
-    // otp: Joi.string()
-    //     .error(new Error(errorMessage.OTP_ISSUE))
-    //     .required(),
 })
